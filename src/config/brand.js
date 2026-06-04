@@ -1,9 +1,9 @@
 export const brandConfig = {
   name: "Risk Calculator",
   tagline: "Калькулятор риск-менеджмента для дисциплинированной торговли",
-  telegramUrl: "https://t.me/your_channel",
+  telegramUrl: "https://t.me/+er7qx-KlvT4xMmFi",
   socials: {
-    telegram: "https://t.me/your_channel",
+    telegram: "https://t.me/+er7qx-KlvT4xMmFi",
   },
   primaryCtaText: "Перейти в Telegram",
   educationalCtaText: "Обучение и правила риска",
