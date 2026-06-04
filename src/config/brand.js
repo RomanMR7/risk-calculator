@@ -2,13 +2,16 @@
 // keep title, description and Open Graph tags in sync manually.
 export const brandConfig = {
   name: "Risk Calculator",
-  shortName: "RiskCalc",
+  shortName: "MariaEpova",
+  creatorName: "MariaEpova",
+  creatorSubtitle: "Risk management",
+  avatarUrl: "/assets/photo_2026-06-04_03-40-29.jpg",
   tagline: "Торгуй как профессионал, а не на эмоциях.\n\nПеред каждой сделкой рассчитывай размер позиции, риск и потенциальную прибыль.",
   description: "Дисциплина начинается с правильного расчёта сделки",
   telegramUrl: "https://t.me/+er7qx-KlvT4xMmFi",
   websiteUrl: "https://risk-calculator-one.vercel.app/",
   logoUrl: "",
-  logoAlt: "Risk Calculator",
+  logoAlt: "MariaEpova",
   primaryCtaText: "Канал с разборами и сделками",
   educationalCtaText: "Перед сделкой важно знать",
   shareText: "Калькулятор риск-менеджмента для расчёта позиции: депозит, риск, Stop Loss, Take Profit и Risk/Reward.",

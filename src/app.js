@@ -77,8 +77,8 @@ function getBrandInitials(name) {
 }
 
 function initBrand() {
-  brandName.textContent = brandConfig.name;
-  brandShort.textContent = brandConfig.shortName;
+  brandName.textContent = brandConfig.creatorName || brandConfig.shortName;
+  brandShort.textContent = brandConfig.creatorSubtitle || brandConfig.shortName;
   brandDescription.textContent = brandConfig.description;
   brandTagline.textContent = brandConfig.tagline;
   telegramLink.href = brandConfig.telegramUrl;
@@ -86,8 +86,10 @@ function initBrand() {
   educationToggle.textContent = brandConfig.educationalCtaText;
   disclaimer.textContent = brandConfig.disclaimer;
 
-  if (brandConfig.logoUrl) {
-    brandLogo.src = brandConfig.logoUrl;
+  const avatarUrl = brandConfig.avatarUrl || brandConfig.logoUrl;
+
+  if (avatarUrl) {
+    brandLogo.src = avatarUrl;
     brandLogo.alt = brandConfig.logoAlt;
     brandLogo.hidden = false;
     brandMark.hidden = true;

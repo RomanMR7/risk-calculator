@@ -24,6 +24,10 @@
   box-sizing: border-box;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -60,18 +64,28 @@ a {
 
 .brand-bar {
   display: flex;
-  gap: 12px;
+  width: fit-content;
+  max-width: 100%;
+  gap: 11px;
   align-items: center;
   margin-bottom: 22px;
+  border: 1px solid rgba(214, 168, 79, 0.32);
+  border-radius: 999px;
+  padding: 7px 14px 7px 7px;
+  background:
+    linear-gradient(135deg, rgba(255, 215, 120, 0.12), rgba(17, 16, 13, 0.68)),
+    rgba(7, 7, 7, 0.72);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32), 0 0 24px rgba(214, 168, 79, 0.12);
 }
 
 .brand-mark,
 .brand-logo {
-  width: 52px;
-  height: 52px;
-  flex: 0 0 52px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border: 1px solid rgba(255, 215, 120, 0.58);
+  border-radius: 999px;
+  box-shadow: 0 0 0 3px rgba(214, 168, 79, 0.08), 0 10px 24px rgba(0, 0, 0, 0.38);
 }
 
 .brand-mark {
@@ -84,9 +98,10 @@ a {
 }
 
 .brand-logo {
-  object-fit: contain;
-  background: var(--panel-soft);
-  padding: 8px;
+  object-fit: cover;
+  object-position: 50% 34%;
+  background: #090907;
+  padding: 0;
 }
 
 .brand-name,
@@ -96,15 +111,16 @@ a {
 
 .brand-name {
   color: var(--text);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 900;
 }
 
 .brand-short {
-  margin-top: 3px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 750;
+  margin-top: 2px;
+  color: var(--gold-strong);
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .hero-description {
@@ -662,6 +678,21 @@ input:focus {
 }
 
 @media (max-width: 680px) {
+  .brand-bar {
+    padding-right: 12px;
+  }
+
+  .brand-mark,
+  .brand-logo {
+    width: 44px;
+    height: 44px;
+    flex-basis: 44px;
+  }
+
+  .brand-name {
+    font-size: 16px;
+  }
+
   .grid,
   .metrics,
   .education-grid {
