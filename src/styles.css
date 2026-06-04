@@ -374,9 +374,11 @@ input:focus {
 }
 
 .disclaimer {
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+  margin-top: 10px;
+  max-width: 620px;
+  font-size: 12px;
+  line-height: 1.45;
+  opacity: 0.58;
 }
 
 .section-title {
