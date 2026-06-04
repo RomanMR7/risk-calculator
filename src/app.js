@@ -49,7 +49,6 @@ let latestResult = null;
 let statusTimer = null;
 
 function initBrand() {
-  document.title = brandConfig.name;
   brandTagline.textContent = brandConfig.tagline;
   telegramLink.href = brandConfig.telegramUrl;
   telegramLink.textContent = brandConfig.primaryCtaText;
