@@ -1,12 +1,32 @@
+// SEO metadata lives in index.html. When brand text changes here,
+// keep title, description and Open Graph tags in sync manually.
 export const brandConfig = {
   name: "Risk Calculator",
+  shortName: "RiskCalc",
   tagline: "Калькулятор риск-менеджмента для дисциплинированной торговли",
+  description: "Рассчитайте риск, размер позиции, Stop Loss, Take Profit и Risk/Reward перед сделкой.",
   telegramUrl: "https://t.me/+er7qx-KlvT4xMmFi",
-  socials: {
-    telegram: "https://t.me/+er7qx-KlvT4xMmFi",
-  },
+  websiteUrl: "https://risk-calculator-one.vercel.app/",
+  logoUrl: "",
+  logoAlt: "Risk Calculator",
   primaryCtaText: "Перейти в Telegram",
   educationalCtaText: "Обучение и правила риска",
   shareText: "Калькулятор риск-менеджмента для расчёта позиции: депозит, риск, Stop Loss, Take Profit и Risk/Reward.",
   disclaimer: "Инструмент носит образовательный характер и не является финансовой рекомендацией.",
+  socials: {
+    telegram: "https://t.me/+er7qx-KlvT4xMmFi",
+    youtube: "",
+    instagram: "",
+    website: "",
+  },
+  colors: {
+    background: "#070707",
+    surface: "#111111",
+    surfaceSoft: "#191919",
+    primary: "#d6a84f",
+    primarySoft: "#f5d78a",
+    text: "#f7f1df",
+    muted: "#a8a08f",
+    border: "rgba(214, 168, 79, 0.22)",
+  },
 };

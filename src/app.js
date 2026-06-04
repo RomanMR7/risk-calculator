@@ -17,8 +17,14 @@ const DEFAULT_VALUES = {
 const form = document.querySelector("[data-form]");
 const result = document.querySelector("[data-result]");
 const error = document.querySelector("[data-error]");
+const brandName = document.querySelector("[data-brand-name]");
+const brandShort = document.querySelector("[data-brand-short]");
+const brandDescription = document.querySelector("[data-brand-description]");
 const brandTagline = document.querySelector("[data-brand-tagline]");
+const brandMark = document.querySelector("[data-brand-mark]");
+const brandLogo = document.querySelector("[data-brand-logo]");
 const telegramLink = document.querySelector("[data-telegram-link]");
+const socialLinks = document.querySelector("[data-social-links]");
 const educationToggle = document.querySelector("[data-education-toggle]");
 const educationPanel = document.querySelector("[data-education-panel]");
 const educationList = document.querySelector("[data-education-list]");
@@ -48,12 +54,52 @@ let latestInput = null;
 let latestResult = null;
 let statusTimer = null;
 
+const socialLabels = {
+  telegram: "Telegram",
+  youtube: "YouTube",
+  instagram: "Instagram",
+  website: "Сайт",
+};
+
+function getBrandInitials(name) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
 function initBrand() {
+  brandName.textContent = brandConfig.name;
+  brandShort.textContent = brandConfig.shortName;
+  brandDescription.textContent = brandConfig.description;
   brandTagline.textContent = brandConfig.tagline;
   telegramLink.href = brandConfig.telegramUrl;
   telegramLink.textContent = brandConfig.primaryCtaText;
   educationToggle.textContent = brandConfig.educationalCtaText;
   disclaimer.textContent = brandConfig.disclaimer;
+
+  if (brandConfig.logoUrl) {
+    brandLogo.src = brandConfig.logoUrl;
+    brandLogo.alt = brandConfig.logoAlt;
+    brandLogo.hidden = false;
+    brandMark.hidden = true;
+  } else {
+    brandMark.textContent = getBrandInitials(brandConfig.name);
+    brandLogo.hidden = true;
+    brandMark.hidden = false;
+  }
+
+  const socialItems = Object.entries(brandConfig.socials)
+    .filter(([, url]) => Boolean(url))
+    .map(([key, url]) => `
+      <a href="${url}" target="_blank" rel="noopener noreferrer">${socialLabels[key] || key}</a>
+    `);
+
+  socialLinks.innerHTML = socialItems.join("");
+  socialLinks.hidden = socialItems.length === 0;
 }
 
 function initEducation() {

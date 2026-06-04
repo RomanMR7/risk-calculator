@@ -1,15 +1,23 @@
 :root {
   color-scheme: dark;
-  --bg: #090907;
-  --panel: #151411;
-  --panel-soft: #1d1a14;
-  --text: #f7f0df;
-  --muted: #aa9e86;
-  --line: rgba(232, 187, 89, 0.18);
-  --gold: #e5b75d;
-  --gold-strong: #ffd778;
+  --color-bg: #070707;
+  --color-surface: #111111;
+  --color-surface-soft: #191919;
+  --color-primary: #d6a84f;
+  --color-primary-soft: #f5d78a;
+  --color-text: #f7f1df;
+  --color-muted: #a8a08f;
+  --color-border: rgba(214, 168, 79, 0.22);
+  --bg: var(--color-bg);
+  --panel: var(--color-surface);
+  --panel-soft: var(--color-surface-soft);
+  --text: var(--color-text);
+  --muted: var(--color-muted);
+  --line: var(--color-border);
+  --gold: var(--color-primary);
+  --gold-strong: var(--color-primary-soft);
   --warn: #ff8d72;
-  --shadow: rgba(229, 183, 93, 0.22);
+  --shadow: rgba(214, 168, 79, 0.22);
 }
 
 * {
@@ -46,11 +54,68 @@ a {
   padding: 18px 0 24px;
 }
 
+.brand-bar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+
+.brand-mark,
+.brand-logo {
+  width: 52px;
+  height: 52px;
+  flex: 0 0 52px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--gold), #8f671f);
+  color: #160f05;
+  font-size: 17px;
+  font-weight: 950;
+}
+
+.brand-logo {
+  object-fit: contain;
+  background: var(--panel-soft);
+  padding: 8px;
+}
+
+.brand-name,
+.brand-short {
+  margin: 0;
+}
+
+.brand-name {
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.brand-short {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.hero-description {
+  max-width: 720px;
+  margin: 16px 0 0;
+  color: var(--text);
+  font-size: clamp(17px, 3vw, 22px);
+  line-height: 1.45;
+}
+
 .hero-copy {
   max-width: 680px;
-  margin: 16px 0 0;
+  margin: 10px 0 0;
   color: var(--muted);
-  font-size: clamp(16px, 3vw, 20px);
+  font-size: clamp(15px, 3vw, 18px);
   line-height: 1.5;
 }
 
@@ -62,6 +127,31 @@ a {
   gap: 12px;
   align-items: center;
   margin-top: 18px;
+}
+
+.social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.social-links a {
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 7px 12px;
+  color: var(--muted);
+  background: rgba(12, 11, 9, 0.48);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.social-links a:hover,
+.social-links a:focus-visible {
+  border-color: rgba(255, 215, 120, 0.8);
+  color: var(--gold-strong);
+  outline: none;
 }
 
 .eyebrow {
