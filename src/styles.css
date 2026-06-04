@@ -401,6 +401,9 @@ input:focus {
 }
 
 .education-item {
+  display: grid;
+  align-content: start;
+  gap: 10px;
   min-height: 150px;
   padding: 18px;
   border: 1px solid var(--line);
@@ -409,10 +412,11 @@ input:focus {
 }
 
 .education-item h3 {
-  margin: 0 0 10px;
+  margin: 0;
   color: var(--gold-strong);
   font-size: 18px;
   letter-spacing: 0;
+  line-height: 1.25;
 }
 
 .education-item p,
@@ -420,6 +424,101 @@ input:focus {
   margin: 0;
   color: var(--muted);
   line-height: 1.55;
+}
+
+.education-item p {
+  font-size: 14px;
+}
+
+.education-list-block {
+  display: grid;
+  gap: 7px;
+}
+
+.education-list-block strong,
+.education-example strong {
+  color: var(--text);
+  font-size: 13px;
+}
+
+.education-list-block ul {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.education-list-block li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.education-list-block li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 6px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+
+.education-table-wrap {
+  overflow-x: auto;
+  border: 1px solid rgba(214, 168, 79, 0.18);
+  border-radius: 12px;
+}
+
+.education-table {
+  width: 100%;
+  min-width: 280px;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.education-table th,
+.education-table td {
+  padding: 9px 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(214, 168, 79, 0.14);
+}
+
+.education-table th {
+  color: var(--gold-strong);
+  background: rgba(214, 168, 79, 0.08);
+  font-weight: 850;
+}
+
+.education-table td {
+  color: var(--muted);
+}
+
+.education-table tr:last-child td {
+  border-bottom: 0;
+}
+
+.education-example {
+  display: grid;
+  gap: 7px;
+  border: 1px solid rgba(214, 168, 79, 0.18);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(214, 168, 79, 0.06);
+}
+
+.education-example span {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.education-note {
+  font-size: 12px;
+  opacity: 0.72;
 }
 
 .disclaimer {

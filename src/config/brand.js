@@ -10,7 +10,7 @@ export const brandConfig = {
   logoUrl: "",
   logoAlt: "Risk Calculator",
   primaryCtaText: "Канал с разборами и сделками",
-  educationalCtaText: "Обучение и правила риска",
+  educationalCtaText: "Перед сделкой важно знать",
   shareText: "Калькулятор риск-менеджмента для расчёта позиции: депозит, риск, Stop Loss, Take Profit и Risk/Reward.",
   disclaimer: "Инструмент носит образовательный характер и не является финансовой рекомендацией.",
   socials: {

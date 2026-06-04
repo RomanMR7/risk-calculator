@@ -107,12 +107,57 @@ function initBrand() {
 }
 
 function initEducation() {
-  educationList.innerHTML = educationCards.map((card) => `
-    <article class="education-item">
-      <h3>${card.title}</h3>
-      <p>${card.body}</p>
-    </article>
-  `).join("");
+  educationList.innerHTML = educationCards.map((card) => {
+    const paragraphs = (card.paragraphs || [])
+      .map((paragraph) => `<p>${paragraph}</p>`)
+      .join("");
+    const list = card.list
+      ? `
+        <div class="education-list-block">
+          ${card.listTitle ? `<strong>${card.listTitle}</strong>` : ""}
+          <ul>
+            ${card.list.map((item) => `<li>${item}</li>`).join("")}
+          </ul>
+        </div>
+      `
+      : "";
+    const table = card.table
+      ? `
+        <div class="education-table-wrap">
+          <table class="education-table">
+            <thead>
+              <tr>${card.table.headers.map((header) => `<th>${header}</th>`).join("")}</tr>
+            </thead>
+            <tbody>
+              ${card.table.rows.map((row) => `
+                <tr>${row.map((cell) => `<td>${cell}</td>`).join("")}</tr>
+              `).join("")}
+            </tbody>
+          </table>
+        </div>
+      `
+      : "";
+    const example = card.example
+      ? `
+        <div class="education-example">
+          <strong>${card.example.title}</strong>
+          ${card.example.rows.map((row) => `<span>${row}</span>`).join("")}
+        </div>
+      `
+      : "";
+    const note = card.note ? `<p class="education-note">${card.note}</p>` : "";
+
+    return `
+      <article class="education-item">
+        <h3>${card.title}</h3>
+        ${paragraphs}
+        ${list}
+        ${table}
+        ${example}
+        ${note}
+      </article>
+    `;
+  }).join("");
 }
 
 function safeReadStorage() {
