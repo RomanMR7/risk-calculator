@@ -6,22 +6,29 @@ export function getRiskRewardQuality(riskReward) {
     };
   }
 
-  if (riskReward < 1) {
+  if (riskReward > 3) {
     return {
-      label: "Слабое соотношение",
-      tone: "weak",
+      label: "🟢 Отличное соотношение",
+      tone: "excellent",
     };
   }
 
-  if (riskReward < 2) {
+  if (riskReward >= 2 && riskReward <= 3) {
     return {
-      label: "Умеренное соотношение",
-      tone: "moderate",
+      label: "🟡 Хорошее соотношение",
+      tone: "good",
+    };
+  }
+
+  if (riskReward >= 1 && riskReward < 2) {
+    return {
+      label: "🟠 Среднее соотношение",
+      tone: "average",
     };
   }
 
   return {
-    label: "Сильное соотношение",
-    tone: "strong",
+    label: "🔴 Слабое соотношение",
+    tone: "weak",
   };
 }

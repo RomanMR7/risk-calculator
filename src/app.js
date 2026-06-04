@@ -35,6 +35,7 @@ const resetButton = document.querySelector("[data-reset-button]");
 const copyPlanButton = document.querySelector("[data-copy-plan-button]");
 const copyPlanStatus = document.querySelector("[data-copy-plan-status]");
 const riskRewardQuality = document.querySelector("[data-rr-quality]");
+const riskRewardQualityLabel = document.querySelector("[data-rr-quality-label]");
 const tradePlanCard = document.querySelector("[data-trade-plan-card]");
 const tradePlan = document.querySelector("[data-trade-plan]");
 const riskValue = document.querySelector("[data-risk-value]");
@@ -225,14 +226,14 @@ function updateDistanceHints(data) {
 function updateRiskRewardQuality(data) {
   if (!data) {
     riskRewardQuality.hidden = true;
-    riskRewardQuality.textContent = "";
+    riskRewardQualityLabel.textContent = "";
     riskRewardQuality.dataset.tone = "neutral";
     return;
   }
 
   const quality = getRiskRewardQuality(data.riskReward);
   riskRewardQuality.hidden = false;
-  riskRewardQuality.textContent = quality.label;
+  riskRewardQualityLabel.textContent = quality.label;
   riskRewardQuality.dataset.tone = quality.tone;
 }
 

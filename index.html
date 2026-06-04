@@ -3,30 +3,30 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Калькулятор риск-менеджмента для трейдера</title>
+    <title>Калькулятор для расчёта позиции</title>
     <meta
       name="description"
-      content="Рассчитайте риск, размер позиции, Stop Loss, Take Profit и Risk/Reward для сделки. Инструмент для дисциплинированного риск-менеджмента."
+      content="Калькулятор для расчёта позиции: размер сделки, риск, Stop Loss, Take Profit и соотношение Risk/Reward."
     >
     <meta name="robots" content="index, follow">
     <meta name="theme-color" content="#090907">
     <link rel="canonical" href="https://risk-calculator-one.vercel.app/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://risk-calculator-one.vercel.app/">
-    <meta property="og:title" content="Калькулятор риск-менеджмента для трейдера">
+    <meta property="og:title" content="Калькулятор для расчёта позиции">
     <meta
       property="og:description"
-      content="Рассчитайте риск, размер позиции, Stop Loss, Take Profit и Risk/Reward перед сделкой."
+      content="Дисциплина начинается с правильного расчёта сделки: размер позиции, риск и потенциальная прибыль."
     >
     <meta property="og:site_name" content="Risk Calculator">
     <meta property="og:locale" content="ru_RU">
     <meta property="og:image" content="https://risk-calculator-one.vercel.app/risk-calculator-screenshot.png">
     <meta property="og:image:alt" content="Интерфейс калькулятора риск-менеджмента">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Калькулятор риск-менеджмента для трейдера">
+    <meta name="twitter:title" content="Калькулятор для расчёта позиции">
     <meta
       name="twitter:description"
-      content="Рассчитайте риск, размер позиции, Stop Loss, Take Profit и Risk/Reward перед сделкой."
+      content="Дисциплина начинается с правильного расчёта сделки: размер позиции, риск и потенциальная прибыль."
     >
     <meta name="twitter:image" content="https://risk-calculator-one.vercel.app/risk-calculator-screenshot.png">
     <link rel="stylesheet" href="./src/styles.css">
@@ -43,9 +43,18 @@
           </div>
         </div>
         <p class="eyebrow">Дисциплина и расчёт</p>
-        <h1>Калькулятор риск-менеджмента входа в сделку</h1>
+        <h1>Калькулятор для расчёта позиции</h1>
         <p class="hero-description" data-brand-description></p>
         <p class="hero-copy" data-brand-tagline></p>
+        <section class="hero-benefits" aria-label="Что покажет калькулятор">
+          <p>Калькулятор покажет:</p>
+          <ul>
+            <li>сколько открыть</li>
+            <li>сколько потерять при Stop Loss</li>
+            <li>потенциальную прибыль</li>
+            <li>соотношение Risk / Reward</li>
+          </ul>
+        </section>
         <div class="hero-actions">
           <a class="telegram-link" data-telegram-link target="_blank" rel="noopener noreferrer"></a>
           <button class="ghost-button" type="button" data-education-toggle aria-expanded="false"></button>
@@ -125,7 +134,10 @@
           <h2>Результаты расчёта</h2>
         </div>
         <p class="error" data-error></p>
-        <div class="rr-quality" data-rr-quality hidden></div>
+        <div class="rr-quality" data-rr-quality hidden>
+          <span>Оценка Risk / Reward</span>
+          <strong data-rr-quality-label></strong>
+        </div>
         <div class="metrics" data-result></div>
         <article class="trade-plan-card" data-trade-plan-card hidden>
           <div class="trade-plan-head">

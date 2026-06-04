@@ -61,22 +61,39 @@ test("formats a trade plan without source link when source is incomplete", () =>
 });
 
 test("labels weak Risk / Reward", () => {
-  assert.deepEqual(getRiskRewardQuality(0.9), {
-    label: "Слабое соотношение",
+  assert.deepEqual(getRiskRewardQuality(0.8), {
+    label: "🔴 Слабое соотношение",
     tone: "weak",
   });
 });
 
-test("labels moderate Risk / Reward", () => {
+test("labels average Risk / Reward", () => {
+  assert.deepEqual(getRiskRewardQuality(1), {
+    label: "🟠 Среднее соотношение",
+    tone: "average",
+  });
+
   assert.deepEqual(getRiskRewardQuality(1.5), {
-    label: "Умеренное соотношение",
-    tone: "moderate",
+    label: "🟠 Среднее соотношение",
+    tone: "average",
   });
 });
 
-test("labels strong Risk / Reward", () => {
+test("labels good Risk / Reward", () => {
   assert.deepEqual(getRiskRewardQuality(2), {
-    label: "Сильное соотношение",
-    tone: "strong",
+    label: "🟡 Хорошее соотношение",
+    tone: "good",
+  });
+
+  assert.deepEqual(getRiskRewardQuality(3), {
+    label: "🟡 Хорошее соотношение",
+    tone: "good",
+  });
+});
+
+test("labels excellent Risk / Reward", () => {
+  assert.deepEqual(getRiskRewardQuality(3.1), {
+    label: "🟢 Отличное соотношение",
+    tone: "excellent",
   });
 });
