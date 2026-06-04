@@ -436,6 +436,44 @@ input:focus {
   font-size: clamp(22px, 5vw, 32px);
 }
 
+.trade-plan-card {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(12, 11, 9, 0.72);
+}
+
+.trade-plan-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
+
+.trade-plan-head h3 {
+  margin: 0;
+  color: var(--gold-strong);
+  font-size: 20px;
+  letter-spacing: 0;
+}
+
+.trade-plan-head span {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.trade-plan-card pre {
+  margin: 0;
+  overflow-x: auto;
+  white-space: pre-wrap;
+  color: var(--text);
+  font-family: "Segoe UI", Arial, sans-serif;
+  line-height: 1.55;
+}
+
 .error {
   margin: 0 0 14px;
   color: var(--warn);
@@ -456,5 +494,9 @@ input:focus {
 
   .preset-row {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .trade-plan-head {
+    display: grid;
   }
 }

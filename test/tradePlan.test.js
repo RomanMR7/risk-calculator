@@ -21,13 +21,43 @@ test("formats a trade plan without trading promises", () => {
       riskReward: "3",
     },
     "Не является финансовой рекомендацией.",
+    {
+      name: "Risk Calculator",
+      url: "https://risk-calculator-one.vercel.app/",
+    },
   );
 
   assert.match(plan, /Направление: LONG/);
   assert.match(plan, /Риск: 1% \/ \$10/);
   assert.match(plan, /Размер позиции: \$500/);
   assert.match(plan, /Risk \/ Reward: 3/);
+  assert.match(plan, /Рассчитано в Risk Calculator:/);
+  assert.match(plan, /https:\/\/risk-calculator-one\.vercel\.app\//);
   assert.doesNotMatch(plan.toLowerCase(), /покупать|входить|гарант/);
+});
+
+test("formats a trade plan without source link when source is incomplete", () => {
+  const plan = buildTradePlan(
+    {
+      direction: "short",
+      deposit: "500",
+      riskPercent: "2",
+      entryPrice: "50",
+      stopLossPrice: "55",
+      takeProfitPrice: "35",
+    },
+    {
+      riskAmount: "10",
+      positionSizeUsd: "100",
+      quantity: "2",
+      potentialProfit: "30",
+      riskReward: "3",
+    },
+    "Не является финансовой рекомендацией.",
+  );
+
+  assert.match(plan, /Направление: SHORT/);
+  assert.doesNotMatch(plan, /Рассчитано в/);
 });
 
 test("labels weak Risk / Reward", () => {

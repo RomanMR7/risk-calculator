@@ -35,6 +35,8 @@ const resetButton = document.querySelector("[data-reset-button]");
 const copyPlanButton = document.querySelector("[data-copy-plan-button]");
 const copyPlanStatus = document.querySelector("[data-copy-plan-status]");
 const riskRewardQuality = document.querySelector("[data-rr-quality]");
+const tradePlanCard = document.querySelector("[data-trade-plan-card]");
+const tradePlan = document.querySelector("[data-trade-plan]");
 const riskValue = document.querySelector("[data-risk-value]");
 const stopDelta = document.querySelector("[data-stop-delta]");
 const takeProfitDelta = document.querySelector("[data-take-profit-delta]");
@@ -53,6 +55,7 @@ const fields = {
 let latestInput = null;
 let latestResult = null;
 let statusTimer = null;
+let manualCopyTextArea = null;
 
 const socialLabels = {
   telegram: "Telegram",
@@ -252,6 +255,34 @@ function render(data) {
   `).join("");
 }
 
+function getFormattedResult(data) {
+  return {
+    riskAmount: formatNumber(data.riskAmount, 2),
+    positionSizeUsd: formatNumber(data.positionSizeUsd, 2),
+    quantity: formatNumber(data.quantity, 8),
+    potentialProfit: formatNumber(data.potentialProfit, 2),
+    riskReward: formatNumber(data.riskReward, 2),
+  };
+}
+
+function getTradePlanText(input, data) {
+  return buildTradePlan(input, getFormattedResult(data), brandConfig.disclaimer, {
+    name: brandConfig.name,
+    url: brandConfig.websiteUrl,
+  });
+}
+
+function updateTradePlan(input, data) {
+  if (!input || !data) {
+    tradePlanCard.hidden = true;
+    tradePlan.textContent = "";
+    return;
+  }
+
+  tradePlan.textContent = getTradePlanText(input, data);
+  tradePlanCard.hidden = false;
+}
+
 function calculate(persist = true) {
   updateRiskUi();
 
@@ -264,6 +295,7 @@ function calculate(persist = true) {
     updateDistanceHints(data);
     updateRiskRewardQuality(data);
     render(data);
+    updateTradePlan(input, data);
     if (persist) {
       safeWriteStorage(input);
     }
@@ -273,6 +305,7 @@ function calculate(persist = true) {
     result.innerHTML = "";
     updateDistanceHints(null);
     updateRiskRewardQuality(null);
+    updateTradePlan(null, null);
     error.textContent = event.message;
   }
 }
@@ -312,24 +345,74 @@ function showTemporaryStatus(element, message) {
   }, 2200);
 }
 
+function clearManualCopyTextArea() {
+  if (manualCopyTextArea) {
+    manualCopyTextArea.remove();
+    manualCopyTextArea = null;
+  }
+}
+
+function createManualCopyTextArea(text) {
+  clearManualCopyTextArea();
+
+  const textArea = document.createElement("textarea");
+  textArea.value = text;
+  textArea.setAttribute("readonly", "");
+  textArea.style.position = "fixed";
+  textArea.style.top = "0";
+  textArea.style.left = "0";
+  textArea.style.width = "1px";
+  textArea.style.height = "1px";
+  textArea.style.opacity = "0";
+  textArea.style.pointerEvents = "none";
+  document.body.append(textArea);
+  textArea.focus();
+  textArea.select();
+
+  manualCopyTextArea = textArea;
+  window.setTimeout(clearManualCopyTextArea, 5000);
+
+  return textArea;
+}
+
+async function copyTextToClipboard(text) {
+  if (navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return "copied";
+    } catch {
+      // Some embedded browsers expose Clipboard API but block writes.
+    }
+  }
+
+  createManualCopyTextArea(text);
+
+  try {
+    if (document.execCommand("copy")) {
+      clearManualCopyTextArea();
+      return "copied";
+    }
+  } catch {
+    // Keep the text selected so the user can copy it manually.
+  }
+
+  return "selected";
+}
+
 async function copyTradePlan() {
   if (!latestInput || !latestResult) {
     showTemporaryStatus(copyPlanStatus, "Сначала заполните корректные значения");
     return;
   }
 
-  const formattedResult = {
-    riskAmount: formatNumber(latestResult.riskAmount, 2),
-    positionSizeUsd: formatNumber(latestResult.positionSizeUsd, 2),
-    quantity: formatNumber(latestResult.quantity, 8),
-    potentialProfit: formatNumber(latestResult.potentialProfit, 2),
-    riskReward: formatNumber(latestResult.riskReward, 2),
-  };
-  const plan = buildTradePlan(latestInput, formattedResult, brandConfig.disclaimer);
+  const plan = getTradePlanText(latestInput, latestResult);
 
   try {
-    await navigator.clipboard.writeText(plan);
-    showTemporaryStatus(copyPlanStatus, "План сделки скопирован");
+    const copyResult = await copyTextToClipboard(plan);
+    const message = copyResult === "copied"
+      ? "План сделки скопирован"
+      : "План выделен: нажмите Ctrl+C";
+    showTemporaryStatus(copyPlanStatus, message);
   } catch {
     showTemporaryStatus(copyPlanStatus, "Не удалось скопировать план");
   }

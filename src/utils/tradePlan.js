@@ -1,7 +1,6 @@
-export function buildTradePlan(input, result, disclaimer) {
+export function buildTradePlan(input, result, disclaimer, source = null) {
   const direction = String(input.direction || "").toUpperCase();
-
-  return [
+  const lines = [
     "План сделки",
     "",
     `Направление: ${direction}`,
@@ -17,5 +16,11 @@ export function buildTradePlan(input, result, disclaimer) {
     `Risk / Reward: ${result.riskReward}`,
     "",
     disclaimer,
-  ].join("\n");
+  ];
+
+  if (source?.name && source?.url) {
+    lines.push("", `Рассчитано в ${source.name}:`, source.url);
+  }
+
+  return lines.join("\n");
 }
