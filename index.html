@@ -57,7 +57,13 @@
         </section>
         <div class="hero-actions">
           <a class="telegram-link" data-telegram-link target="_blank" rel="noopener noreferrer"></a>
-          <button class="ghost-button" type="button" data-education-toggle aria-expanded="false"></button>
+          <a
+            class="ghost-button"
+            href="#education-section"
+            data-education-toggle
+            aria-controls="education-section"
+            aria-expanded="false"
+          ></a>
         </div>
         <nav class="social-links" data-social-links aria-label="Социальные ссылки"></nav>
       </header>
@@ -119,7 +125,7 @@
         </div>
       </form>
 
-      <section class="panel education-card" data-education-panel hidden>
+      <section id="education-section" class="panel education-card" data-education-panel>
         <div class="section-title">
           <p class="eyebrow">База риска</p>
           <h2>Перед сделкой важно знать</h2>

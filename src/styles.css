@@ -24,6 +24,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -392,6 +396,13 @@ input:focus {
 .education-card {
   margin-top: 20px;
   padding: clamp(18px, 4vw, 30px);
+  scroll-margin-top: 24px;
+  transition: box-shadow 220ms ease, border-color 220ms ease;
+}
+
+#education-section.is-highlighted {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 1px var(--color-primary), 0 0 32px rgba(214, 168, 79, 0.2);
 }
 
 .education-grid {

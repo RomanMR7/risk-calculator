@@ -57,6 +57,7 @@ let latestInput = null;
 let latestResult = null;
 let statusTimer = null;
 let manualCopyTextArea = null;
+let educationHighlightTimer = null;
 
 const socialLabels = {
   telegram: "Telegram",
@@ -158,6 +159,43 @@ function initEducation() {
       </article>
     `;
   }).join("");
+
+  setEducationOpen(window.location.hash === "#education-section");
+}
+
+function setEducationOpen(isOpen) {
+  educationPanel.hidden = !isOpen;
+  educationPanel.classList.toggle("is-open", isOpen);
+  educationToggle.setAttribute("aria-expanded", String(isOpen));
+}
+
+function highlightEducation(section) {
+  clearTimeout(educationHighlightTimer);
+  section.classList.remove("is-highlighted");
+  void section.offsetWidth;
+  section.classList.add("is-highlighted");
+
+  educationHighlightTimer = window.setTimeout(() => {
+    section.classList.remove("is-highlighted");
+  }, 2000);
+}
+
+function openAndFocusEducation() {
+  const section = document.getElementById("education-section");
+
+  if (!section) {
+    return;
+  }
+
+  setEducationOpen(true);
+
+  window.setTimeout(() => {
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+    highlightEducation(section);
+  }, 50);
 }
 
 function safeReadStorage() {
@@ -478,10 +516,9 @@ form.addEventListener("submit", (event) => {
   calculate();
 });
 
-educationToggle.addEventListener("click", () => {
-  const isHidden = educationPanel.hidden;
-  educationPanel.hidden = !isHidden;
-  educationToggle.setAttribute("aria-expanded", String(isHidden));
+educationToggle.addEventListener("click", (event) => {
+  event.preventDefault();
+  openAndFocusEducation();
 });
 
 shareButton.addEventListener("click", shareCalculator);
@@ -492,3 +529,7 @@ initBrand();
 initEducation();
 initSavedState();
 setDirection(fields.direction.value, false);
+
+if (window.location.hash === "#education-section") {
+  openAndFocusEducation();
+}
