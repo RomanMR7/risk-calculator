@@ -86,7 +86,8 @@ function initBrand() {
   telegramLink.href = brandConfig.telegramUrl;
   telegramLink.textContent = brandConfig.primaryCtaText;
   educationToggle.textContent = brandConfig.educationalCtaText;
-  disclaimer.textContent = brandConfig.disclaimer;
+  disclaimer.textContent = "";
+  disclaimer.hidden = true;
 
   const avatarUrl = brandConfig.avatarUrl || brandConfig.logoUrl;
 
@@ -386,7 +387,7 @@ function getFormattedResult(data) {
 
 function getTradePlanText(input, data) {
   return buildTradePlan(input, getFormattedResult(data), brandConfig.disclaimer, {
-    name: brandConfig.name,
+    name: brandConfig.creatorName || brandConfig.shortName || brandConfig.name,
     url: brandConfig.websiteUrl,
   });
 }

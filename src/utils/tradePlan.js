@@ -1,21 +1,21 @@
-export function buildTradePlan(input, result, disclaimer, source = null) {
+export function buildTradePlan(input, result, _disclaimer, source = null) {
   const direction = String(input.direction || "").toUpperCase();
+  const directionIcon = direction === "SHORT" ? "📉" : "📈";
   const lines = [
-    "План сделки",
+    "📌 План сделки",
     "",
-    `Направление: ${direction}`,
-    `Депозит: $${input.deposit}`,
-    `Риск: ${input.riskPercent}% / $${result.riskAmount}`,
-    `Цена входа: ${input.entryPrice}`,
-    `Stop Loss: ${input.stopLossPrice}`,
-    `Take Profit: ${input.takeProfitPrice}`,
+    `${directionIcon} Направление: ${direction}`,
+    `💰 Депозит: $${input.deposit}`,
+    `🛡 Риск: ${input.riskPercent}% / $${result.riskAmount}`,
     "",
-    `Размер позиции: $${result.positionSizeUsd}`,
-    `Количество актива: ${result.quantity}`,
-    `Потенциальная прибыль: $${result.potentialProfit}`,
-    `Risk / Reward: ${result.riskReward}`,
+    `🎯 Вход: ${input.entryPrice}`,
+    `⛔ Stop Loss: ${input.stopLossPrice}`,
+    `✅ Take Profit: ${input.takeProfitPrice}`,
     "",
-    disclaimer,
+    `📊 Размер позиции: $${result.positionSizeUsd}`,
+    `🪙 Количество актива: ${result.quantity}`,
+    `💵 Потенциальная прибыль: $${result.potentialProfit}`,
+    `⚖️ Risk / Reward: ${result.riskReward}`,
   ];
 
   if (source?.name && source?.url) {
