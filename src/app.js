@@ -28,6 +28,7 @@ const socialLinks = document.querySelector("[data-social-links]");
 const educationToggle = document.querySelector("[data-education-toggle]");
 const educationPanel = document.querySelector("[data-education-panel]");
 const educationList = document.querySelector("[data-education-list]");
+const resultsLink = document.querySelector("[data-results-link]");
 const disclaimer = document.querySelector("[data-disclaimer]");
 const shareButton = document.querySelector("[data-share-button]");
 const shareStatus = document.querySelector("[data-share-status]");
@@ -58,6 +59,7 @@ let latestResult = null;
 let statusTimer = null;
 let manualCopyTextArea = null;
 let educationHighlightTimer = null;
+let resultsHighlightTimer = null;
 
 const socialLabels = {
   telegram: "Telegram",
@@ -182,6 +184,17 @@ function highlightEducation(section) {
   }, 2000);
 }
 
+function highlightResults(section) {
+  clearTimeout(resultsHighlightTimer);
+  section.classList.remove("is-highlighted");
+  void section.offsetWidth;
+  section.classList.add("is-highlighted");
+
+  resultsHighlightTimer = window.setTimeout(() => {
+    section.classList.remove("is-highlighted");
+  }, 1800);
+}
+
 function openAndFocusEducation() {
   const section = document.getElementById("education-section");
 
@@ -198,6 +211,26 @@ function openAndFocusEducation() {
     });
     highlightEducation(section);
   }, 50);
+}
+
+function focusResultsSection(event) {
+  if (event) {
+    event.preventDefault();
+  }
+
+  calculate();
+
+  const section = document.getElementById("results-section");
+
+  if (!section) {
+    return;
+  }
+
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+  });
+  highlightResults(section);
 }
 
 function safeReadStorage() {
@@ -523,6 +556,7 @@ educationToggle.addEventListener("click", (event) => {
   openAndFocusEducation();
 });
 
+resultsLink.addEventListener("click", focusResultsSection);
 shareButton.addEventListener("click", shareCalculator);
 resetButton.addEventListener("click", resetValues);
 copyPlanButton.addEventListener("click", copyTradePlan);
