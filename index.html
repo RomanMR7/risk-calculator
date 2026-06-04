@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Калькулятор риск-менеджмента</title>
+    <link rel="stylesheet" href="./src/styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="eyebrow">Дисциплина и расчёт</p>
+        <h1>Калькулятор риск-менеджмента входа в сделку</h1>
+      </header>
+
+      <form class="panel form-card" data-form>
+        <div class="field">
+          <label for="deposit">Ваш депозит</label>
+          <div class="input-shell">
+            <input id="deposit" type="number" min="0.00000001" step="any" value="1000" required>
+            <span>$</span>
+          </div>
+        </div>
+
+        <section class="risk-control" aria-labelledby="risk-title">
+          <div class="field-head">
+            <label id="risk-title" for="riskPercent">Риск на сделку</label>
+            <strong data-risk-value>1%</strong>
+          </div>
+          <input id="riskPercent" class="range" type="range" min="0.5" max="5" step="0.5" value="1">
+          <div class="preset-row" aria-label="Быстрый выбор риска">
+            <button type="button" data-risk-preset="0.5">0.5%</button>
+            <button type="button" data-risk-preset="1">1%</button>
+            <button type="button" data-risk-preset="2">2%</button>
+            <button type="button" data-risk-preset="3">3%</button>
+            <button type="button" data-risk-preset="5">5%</button>
+          </div>
+        </section>
+
+        <section class="direction-group" aria-label="Направление сделки">
+          <input id="direction" type="hidden" value="long">
+          <button type="button" data-direction="long">LONG</button>
+          <button type="button" data-direction="short">SHORT</button>
+        </section>
+
+        <div class="grid">
+          <div class="field">
+            <label for="entryPrice">Цена входа</label>
+            <input id="entryPrice" type="number" min="0.00000001" step="any" value="100" required>
+          </div>
+          <div class="field">
+            <div class="field-head">
+              <label for="stopLossPrice">Stop Loss</label>
+              <span data-stop-delta></span>
+            </div>
+            <input id="stopLossPrice" type="number" min="0.00000001" step="any" value="98" required>
+          </div>
+          <div class="field wide">
+            <div class="field-head">
+              <label for="takeProfitPrice">Take Profit</label>
+              <span data-take-profit-delta></span>
+            </div>
+            <input id="takeProfitPrice" type="number" min="0.00000001" step="any" value="106" required>
+          </div>
+        </div>
+
+        <button class="result-link" type="submit">Результаты расчёта ниже</button>
+      </form>
+
+      <section class="panel results-card" aria-live="polite">
+        <div class="section-title">
+          <p class="eyebrow">Итог</p>
+          <h2>Результаты расчёта</h2>
+        </div>
+        <p class="error" data-error></p>
+        <div class="metrics" data-result></div>
+      </section>
+    </main>
+    <script type="module" src="./src/app.js"></script>
+  </body>
+</html>
