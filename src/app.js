@@ -1,6 +1,18 @@
 import { calculatePosition, round } from "./calculator.js";
 import { brandConfig } from "./config/brand.js";
 import { educationCards } from "./content/education.js";
+import { getRiskRewardQuality } from "./utils/rrQuality.js";
+import { buildTradePlan } from "./utils/tradePlan.js";
+
+const STORAGE_KEY = "riskCalculatorState";
+const DEFAULT_VALUES = {
+  deposit: "1000",
+  riskPercent: "1",
+  direction: "long",
+  entryPrice: "100",
+  stopLossPrice: "98",
+  takeProfitPrice: "106",
+};
 
 const form = document.querySelector("[data-form]");
 const result = document.querySelector("[data-result]");
@@ -13,6 +25,10 @@ const educationList = document.querySelector("[data-education-list]");
 const disclaimer = document.querySelector("[data-disclaimer]");
 const shareButton = document.querySelector("[data-share-button]");
 const shareStatus = document.querySelector("[data-share-status]");
+const resetButton = document.querySelector("[data-reset-button]");
+const copyPlanButton = document.querySelector("[data-copy-plan-button]");
+const copyPlanStatus = document.querySelector("[data-copy-plan-status]");
+const riskRewardQuality = document.querySelector("[data-rr-quality]");
 const riskValue = document.querySelector("[data-risk-value]");
 const stopDelta = document.querySelector("[data-stop-delta]");
 const takeProfitDelta = document.querySelector("[data-take-profit-delta]");
@@ -27,6 +43,10 @@ const fields = {
   stopLossPrice: document.querySelector("#stopLossPrice"),
   takeProfitPrice: document.querySelector("#takeProfitPrice"),
 };
+
+let latestInput = null;
+let latestResult = null;
+let statusTimer = null;
 
 function initBrand() {
   document.title = brandConfig.name;
@@ -44,6 +64,53 @@ function initEducation() {
       <p>${card.body}</p>
     </article>
   `).join("");
+}
+
+function safeReadStorage() {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+
+    const parsed = JSON.parse(raw);
+    if (!parsed || typeof parsed !== "object") {
+      return null;
+    }
+
+    return parsed;
+  } catch {
+    return null;
+  }
+}
+
+function safeWriteStorage(input) {
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(input));
+  } catch {
+    // Storage may be unavailable in private mode or restricted environments.
+  }
+}
+
+function safeClearStorage() {
+  try {
+    window.localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // Storage may be unavailable in private mode or restricted environments.
+  }
+}
+
+function applyInput(input) {
+  fields.deposit.value = input.deposit;
+  fields.riskPercent.value = input.riskPercent;
+  fields.direction.value = input.direction;
+  fields.entryPrice.value = input.entryPrice;
+  fields.stopLossPrice.value = input.stopLossPrice;
+  fields.takeProfitPrice.value = input.takeProfitPrice;
+}
+
+function initSavedState() {
+  applyInput({ ...DEFAULT_VALUES, ...safeReadStorage() });
 }
 
 function formatNumber(value, digits = 4) {
@@ -72,14 +139,14 @@ function readInput() {
   };
 }
 
-function setDirection(direction) {
+function setDirection(direction, persist = true) {
   fields.direction.value = direction;
   directionButtons.forEach((button) => {
     const active = button.dataset.direction === direction;
     button.classList.toggle("is-active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-  calculate();
+  calculate(persist);
 }
 
 function setRisk(value) {
@@ -107,6 +174,20 @@ function updateDistanceHints(data) {
   takeProfitDelta.textContent = formatPercent(data.takeProfitDistancePercent);
 }
 
+function updateRiskRewardQuality(data) {
+  if (!data) {
+    riskRewardQuality.hidden = true;
+    riskRewardQuality.textContent = "";
+    riskRewardQuality.dataset.tone = "neutral";
+    return;
+  }
+
+  const quality = getRiskRewardQuality(data.riskReward);
+  riskRewardQuality.hidden = false;
+  riskRewardQuality.textContent = quality.label;
+  riskRewardQuality.dataset.tone = quality.tone;
+}
+
 function render(data) {
   const items = [
     ["Сумма риска", formatUsd(data.riskAmount)],
@@ -126,19 +207,35 @@ function render(data) {
   `).join("");
 }
 
-function calculate() {
+function calculate(persist = true) {
   updateRiskUi();
 
   try {
-    const data = calculatePosition(readInput());
+    const input = readInput();
+    const data = calculatePosition(input);
+    latestInput = input;
+    latestResult = data;
     error.textContent = "";
     updateDistanceHints(data);
+    updateRiskRewardQuality(data);
     render(data);
+    if (persist) {
+      safeWriteStorage(input);
+    }
   } catch (event) {
+    latestInput = null;
+    latestResult = null;
     result.innerHTML = "";
     updateDistanceHints(null);
+    updateRiskRewardQuality(null);
     error.textContent = event.message;
   }
+}
+
+function resetValues() {
+  safeClearStorage();
+  applyInput(DEFAULT_VALUES);
+  setDirection(DEFAULT_VALUES.direction, false);
 }
 
 async function shareCalculator() {
@@ -159,6 +256,37 @@ async function shareCalculator() {
     shareStatus.textContent = "Ссылка скопирована";
   } catch {
     shareStatus.textContent = "Не удалось скопировать ссылку";
+  }
+}
+
+function showTemporaryStatus(element, message) {
+  element.textContent = message;
+  clearTimeout(statusTimer);
+  statusTimer = setTimeout(() => {
+    element.textContent = "";
+  }, 2200);
+}
+
+async function copyTradePlan() {
+  if (!latestInput || !latestResult) {
+    showTemporaryStatus(copyPlanStatus, "Сначала заполните корректные значения");
+    return;
+  }
+
+  const formattedResult = {
+    riskAmount: formatNumber(latestResult.riskAmount, 2),
+    positionSizeUsd: formatNumber(latestResult.positionSizeUsd, 2),
+    quantity: formatNumber(latestResult.quantity, 8),
+    potentialProfit: formatNumber(latestResult.potentialProfit, 2),
+    riskReward: formatNumber(latestResult.riskReward, 2),
+  };
+  const plan = buildTradePlan(latestInput, formattedResult, brandConfig.disclaimer);
+
+  try {
+    await navigator.clipboard.writeText(plan);
+    showTemporaryStatus(copyPlanStatus, "План сделки скопирован");
+  } catch {
+    showTemporaryStatus(copyPlanStatus, "Не удалось скопировать план");
   }
 }
 
@@ -183,7 +311,10 @@ educationToggle.addEventListener("click", () => {
 });
 
 shareButton.addEventListener("click", shareCalculator);
+resetButton.addEventListener("click", resetValues);
+copyPlanButton.addEventListener("click", copyTradePlan);
 
 initBrand();
 initEducation();
-setDirection("long");
+initSavedState();
+setDirection(fields.direction.value, false);

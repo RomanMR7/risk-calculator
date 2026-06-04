@@ -69,7 +69,10 @@
           </div>
         </div>
 
-        <button class="result-link" type="submit">Результаты расчёта ниже</button>
+        <div class="form-actions">
+          <button class="result-link" type="submit">Результаты расчёта ниже</button>
+          <button class="ghost-button" type="button" data-reset-button>Сбросить значения</button>
+        </div>
       </form>
 
       <section class="panel education-card" data-education-panel hidden>
@@ -87,9 +90,12 @@
           <h2>Результаты расчёта</h2>
         </div>
         <p class="error" data-error></p>
+        <div class="rr-quality" data-rr-quality hidden></div>
         <div class="metrics" data-result></div>
         <div class="result-actions">
+          <button class="ghost-button" type="button" data-copy-plan-button>Скопировать план сделки</button>
           <button class="ghost-button" type="button" data-share-button>Поделиться калькулятором</button>
+          <span class="share-status" data-copy-plan-status aria-live="polite"></span>
           <span class="share-status" data-share-status aria-live="polite"></span>
         </div>
       </section>

@@ -55,7 +55,8 @@ a {
 }
 
 .hero-actions,
-.result-actions {
+.result-actions,
+.form-actions {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -99,6 +100,10 @@ h2 {
   display: grid;
   gap: 22px;
   padding: clamp(18px, 4vw, 34px);
+}
+
+.form-actions {
+  margin-top: 0;
 }
 
 .grid {
@@ -237,7 +242,7 @@ input:focus {
 }
 
 .result-link {
-  width: 100%;
+  flex: 1 1 240px;
 }
 
 .results-card {
@@ -292,6 +297,33 @@ input:focus {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
+}
+
+.rr-quality {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  margin-bottom: 14px;
+  min-height: 38px;
+  align-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0 14px;
+  color: var(--gold-strong);
+  background: rgba(12, 11, 9, 0.72);
+  font-weight: 850;
+}
+
+.rr-quality[data-tone="weak"] {
+  color: #ffb19d;
+}
+
+.rr-quality[data-tone="moderate"] {
+  color: #ffe0a3;
+}
+
+.rr-quality[data-tone="strong"] {
+  color: #baf2c7;
 }
 
 .metric {
