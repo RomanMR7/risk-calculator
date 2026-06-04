@@ -1,8 +1,18 @@
 import { calculatePosition, round } from "./calculator.js";
+import { brandConfig } from "./config/brand.js";
+import { educationCards } from "./content/education.js";
 
 const form = document.querySelector("[data-form]");
 const result = document.querySelector("[data-result]");
 const error = document.querySelector("[data-error]");
+const brandTagline = document.querySelector("[data-brand-tagline]");
+const telegramLink = document.querySelector("[data-telegram-link]");
+const educationToggle = document.querySelector("[data-education-toggle]");
+const educationPanel = document.querySelector("[data-education-panel]");
+const educationList = document.querySelector("[data-education-list]");
+const disclaimer = document.querySelector("[data-disclaimer]");
+const shareButton = document.querySelector("[data-share-button]");
+const shareStatus = document.querySelector("[data-share-status]");
 const riskValue = document.querySelector("[data-risk-value]");
 const stopDelta = document.querySelector("[data-stop-delta]");
 const takeProfitDelta = document.querySelector("[data-take-profit-delta]");
@@ -17,6 +27,24 @@ const fields = {
   stopLossPrice: document.querySelector("#stopLossPrice"),
   takeProfitPrice: document.querySelector("#takeProfitPrice"),
 };
+
+function initBrand() {
+  document.title = brandConfig.name;
+  brandTagline.textContent = brandConfig.tagline;
+  telegramLink.href = brandConfig.telegramUrl;
+  telegramLink.textContent = brandConfig.primaryCtaText;
+  educationToggle.textContent = brandConfig.educationalCtaText;
+  disclaimer.textContent = brandConfig.disclaimer;
+}
+
+function initEducation() {
+  educationList.innerHTML = educationCards.map((card) => `
+    <article class="education-item">
+      <h3>${card.title}</h3>
+      <p>${card.body}</p>
+    </article>
+  `).join("");
+}
 
 function formatNumber(value, digits = 4) {
   return new Intl.NumberFormat("ru-RU", {
@@ -113,6 +141,27 @@ function calculate() {
   }
 }
 
+async function shareCalculator() {
+  const shareData = {
+    title: brandConfig.name,
+    text: brandConfig.shareText,
+    url: window.location.href.split("#")[0],
+  };
+
+  try {
+    if (navigator.share) {
+      await navigator.share(shareData);
+      shareStatus.textContent = "Ссылка отправлена";
+      return;
+    }
+
+    await navigator.clipboard.writeText(shareData.url);
+    shareStatus.textContent = "Ссылка скопирована";
+  } catch {
+    shareStatus.textContent = "Не удалось скопировать ссылку";
+  }
+}
+
 directionButtons.forEach((button) => {
   button.addEventListener("click", () => setDirection(button.dataset.direction));
 });
@@ -127,4 +176,14 @@ form.addEventListener("submit", (event) => {
   calculate();
 });
 
+educationToggle.addEventListener("click", () => {
+  const isHidden = educationPanel.hidden;
+  educationPanel.hidden = !isHidden;
+  educationToggle.setAttribute("aria-expanded", String(isHidden));
+});
+
+shareButton.addEventListener("click", shareCalculator);
+
+initBrand();
+initEducation();
 setDirection("long");

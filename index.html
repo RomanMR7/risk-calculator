@@ -11,6 +11,11 @@
       <header class="hero">
         <p class="eyebrow">Дисциплина и расчёт</p>
         <h1>Калькулятор риск-менеджмента входа в сделку</h1>
+        <p class="hero-copy" data-brand-tagline></p>
+        <div class="hero-actions">
+          <a class="telegram-link" data-telegram-link target="_blank" rel="noopener noreferrer"></a>
+          <button class="ghost-button" type="button" data-education-toggle aria-expanded="false"></button>
+        </div>
       </header>
 
       <form class="panel form-card" data-form>
@@ -67,6 +72,15 @@
         <button class="result-link" type="submit">Результаты расчёта ниже</button>
       </form>
 
+      <section class="panel education-card" data-education-panel hidden>
+        <div class="section-title">
+          <p class="eyebrow">База риска</p>
+          <h2>Обучение и правила риска</h2>
+        </div>
+        <div class="education-grid" data-education-list></div>
+        <p class="disclaimer" data-disclaimer></p>
+      </section>
+
       <section class="panel results-card" aria-live="polite">
         <div class="section-title">
           <p class="eyebrow">Итог</p>
@@ -74,6 +88,10 @@
         </div>
         <p class="error" data-error></p>
         <div class="metrics" data-result></div>
+        <div class="result-actions">
+          <button class="ghost-button" type="button" data-share-button>Поделиться калькулятором</button>
+          <span class="share-status" data-share-status aria-live="polite"></span>
+        </div>
       </section>
     </main>
     <script type="module" src="./src/app.js"></script>

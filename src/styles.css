@@ -27,8 +27,13 @@ body {
 }
 
 button,
-input {
+input,
+a {
   font: inherit;
+}
+
+a {
+  text-decoration: none;
 }
 
 .shell {
@@ -39,6 +44,23 @@ input {
 
 .hero {
   padding: 18px 0 24px;
+}
+
+.hero-copy {
+  max-width: 680px;
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: clamp(16px, 3vw, 20px);
+  line-height: 1.5;
+}
+
+.hero-actions,
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
 }
 
 .eyebrow {
@@ -173,10 +195,13 @@ input:focus {
 
 .preset-row button,
 .direction-group button,
-.result-link {
+.result-link,
+.telegram-link,
+.ghost-button {
   min-height: 46px;
   border: 1px solid var(--line);
   border-radius: 999px;
+  padding: 0 18px;
   background: var(--panel-soft);
   color: var(--muted);
   cursor: pointer;
@@ -184,12 +209,31 @@ input:focus {
 
 .preset-row button.is-active,
 .direction-group button.is-active,
-.result-link {
+.result-link,
+.telegram-link {
   border-color: rgba(255, 215, 120, 0.65);
   background: linear-gradient(135deg, #e5b75d, #8f671f);
   color: #160f05;
   font-weight: 900;
   box-shadow: 0 12px 30px rgba(229, 183, 93, 0.26);
+}
+
+.telegram-link,
+.ghost-button,
+.result-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ghost-button:hover,
+.ghost-button:focus-visible,
+.telegram-link:hover,
+.telegram-link:focus-visible {
+  border-color: rgba(255, 215, 120, 0.8);
+  color: var(--gold-strong);
+  box-shadow: 0 0 0 4px rgba(229, 183, 93, 0.13);
+  outline: none;
 }
 
 .result-link {
@@ -199,6 +243,45 @@ input:focus {
 .results-card {
   margin-top: 20px;
   padding: clamp(18px, 4vw, 30px);
+}
+
+.education-card {
+  margin-top: 20px;
+  padding: clamp(18px, 4vw, 30px);
+}
+
+.education-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.education-item {
+  min-height: 150px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(12, 11, 9, 0.72);
+}
+
+.education-item h3 {
+  margin: 0 0 10px;
+  color: var(--gold-strong);
+  font-size: 18px;
+  letter-spacing: 0;
+}
+
+.education-item p,
+.disclaimer {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.disclaimer {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
 }
 
 .section-title {
@@ -237,9 +320,15 @@ input:focus {
   font-weight: 800;
 }
 
+.share-status {
+  color: var(--gold-strong);
+  font-weight: 800;
+}
+
 @media (max-width: 680px) {
   .grid,
-  .metrics {
+  .metrics,
+  .education-grid {
     grid-template-columns: 1fr;
   }
 
